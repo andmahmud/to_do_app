@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do_app/CustomDrawer.dart';
 import 'package:to_do_app/database_helper.dart';
 
 void main() {
@@ -128,7 +129,10 @@ class _ToDoScreenState extends State<ToDoScreen> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
+        backgroundColor: Colors.teal,
+        foregroundColor: Colors.white,
       ),
+      drawer: CustomDrawer(),
       body: Padding(
         padding: EdgeInsets.all(12),
         child: ListView.builder(
@@ -178,7 +182,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                                   : Icons.radio_button_unchecked,
                               color:
                                   task["isCompleted"] == 1
-                                      ? Colors.green
+                                      ? Colors.teal
                                       : Colors.grey,
                             ),
                             onPressed: () => _toggleTaskCompletion(task["id"]),
@@ -204,7 +208,8 @@ class _ToDoScreenState extends State<ToDoScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addTask,
-        child: Icon(Icons.add),
+        backgroundColor: Colors.teal,
+        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }
