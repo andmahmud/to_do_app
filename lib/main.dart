@@ -49,30 +49,29 @@ class _ToDoScreenState extends State<ToDoScreen> {
     _titleController.clear();
     showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: Text("New Task"),
-            content: TextField(
-              controller: _titleController,
-              decoration: InputDecoration(labelText: "Title"),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text("Cancel"),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_titleController.text.isNotEmpty) {
-                    await dbHelper.insertTask(_titleController.text);
-                    _loadTasks();
-                    Navigator.pop(context);
-                  }
-                },
-                child: Text("Add"),
-              ),
-            ],
+      builder: (context) => AlertDialog(
+        title: Text("New Task"),
+        content: TextField(
+          controller: _titleController,
+          decoration: InputDecoration(labelText: "Title"),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("Cancel"),
           ),
+          ElevatedButton(
+            onPressed: () async {
+              if (_titleController.text.isNotEmpty) {
+                await dbHelper.insertTask(_titleController.text);
+                _loadTasks();
+                Navigator.pop(context);
+              }
+            },
+            child: Text("Add"),
+          ),
+        ],
+      ),
     );
   }
 
@@ -88,30 +87,29 @@ class _ToDoScreenState extends State<ToDoScreen> {
     _titleController.text = currentTitle;
     showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: Text("Edit Task"),
-            content: TextField(
-              controller: _titleController,
-              decoration: InputDecoration(labelText: "Title"),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text("Cancel"),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_titleController.text.isNotEmpty) {
-                    await dbHelper.updateTask(taskId, _titleController.text, 0);
-                    _loadTasks();
-                    Navigator.pop(context);
-                  }
-                },
-                child: Text("Update"),
-              ),
-            ],
+      builder: (context) => AlertDialog(
+        title: Text("Edit Task"),
+        content: TextField(
+          controller: _titleController,
+          decoration: InputDecoration(labelText: "Title"),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("Cancel"),
           ),
+          ElevatedButton(
+            onPressed: () async {
+              if (_titleController.text.isNotEmpty) {
+                await dbHelper.updateTask(taskId, _titleController.text, 0);
+                _loadTasks();
+                Navigator.pop(context);
+              }
+            },
+            child: Text("Update"),
+          ),
+        ],
+      ),
     );
   }
 
@@ -157,47 +155,48 @@ class _ToDoScreenState extends State<ToDoScreen> {
                       ),
                     ),
                     SizedBox(height: 6),
-                    // Text(
-                    //   "Created: ${DateFormat.yMMMd().format(DateTime.parse(task["createdAt"]))}",
-                    //   style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                    // ),
-                    // SizedBox(height: 6),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
                             "Created: ${DateFormat.yMMMd().format(DateTime.parse(task["createdAt"]))}",
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.grey[600],
                             ),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          SizedBox(width: 90),
-                          IconButton(
-                            icon: Icon(
-                              task["isCompleted"] == 1
-                                  ? Icons.check_circle
-                                  : Icons.radio_button_unchecked,
-                              color:
-                                  task["isCompleted"] == 1
-                                      ? Colors.teal
-                                      : Colors.grey,
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                task["isCompleted"] == 1
+                                    ? Icons.check_circle
+                                    : Icons.radio_button_unchecked,
+                                color: task["isCompleted"] == 1
+                                    ? Colors.teal
+                                    : Colors.grey,
+                              ),
+                              onPressed: () =>
+                                  _toggleTaskCompletion(task["id"]),
                             ),
-                            onPressed: () => _toggleTaskCompletion(task["id"]),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.edit, color: Colors.blueAccent),
-                            onPressed:
-                                () => _editTask(task["id"], task["title"]),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.delete, color: Colors.redAccent),
-                            onPressed: () => _deleteTask(task["id"]),
-                          ),
-                        ],
-                      ),
+                            IconButton(
+                              icon:
+                                  Icon(Icons.edit, color: Colors.blueAccent),
+                              onPressed: () =>
+                                  _editTask(task["id"], task["title"]),
+                            ),
+                            IconButton(
+                              icon:
+                                  Icon(Icons.delete, color: Colors.redAccent),
+                              onPressed: () => _deleteTask(task["id"]),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),
