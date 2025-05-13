@@ -75,17 +75,7 @@ class CustomDrawer extends StatelessWidget {
               // );
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.info),
-            title: const Text('About Developer'),
-            onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => const DeveloperScreen()),
-              // );
-            },
-          ),
+       
           ListTile(
             leading: const Icon(Icons.share),
             title: const Text('Share'),
